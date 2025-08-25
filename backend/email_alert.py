@@ -23,10 +23,11 @@
 
 
 import resend
-
+from dotenv import load_dotenv
+import os
 # Set API key directly (for quick testing)
 # ⚠️ In production, better to use environment variables for security
-resend.api_key = "re_5rvouR5B_Dzh2vzK41eNirW6vmzN5e3zJ"
+resend.api_key = os.getenv("RESEND_API_KEY")
 
 def send_email_alert(user, maps_link, doctor_email):
     try:
