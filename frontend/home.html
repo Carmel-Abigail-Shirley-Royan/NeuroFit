@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neuro-Guard Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            padding: 20px 0;
+        }
+
+        .container {
+            text-align: center;
+            background: white;
+            padding: 0;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 500px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #6e8efb, #4a6cf7);
+            color: white;
+            padding: 25px 20px;
+            font-weight: 700;
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 60%);
+            transform: rotate(30deg);
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .logo-container {
+            position: relative;
+            margin: 10px auto 25px;
+            width: 200px;
+            height: 200px;
+        }
+
+        .logo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border: 5px solid #f0f4ff;
+            box-shadow: 0 5px 15px rgba(106, 142, 251, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-badge {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: #4a6cf7;
+            color: white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .tagline {
+            color: #4a6cf7;
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        .description {
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .btn-primary,
+        .btn-result {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 12px;
+            border: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin-top: 15px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #6e8efb, #4a6cf7);
+            color: white;
+            box-shadow: 0 5px 15px rgba(106, 142, 251, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(106, 142, 251, 0.6);
+            background: linear-gradient(135deg, #5d7df9, #3a5ce5);
+        }
+
+        .btn-primary:active {
+            transform: translateY(1px);
+        }
+
+        .btn-primary i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        .btn-result {
+            background: linear-gradient(135deg, #43e97b, #38f9d7);
+            color: #1a3c34;
+            box-shadow: 0 5px 15px rgba(67, 233, 123, 0.4);
+            display: none;
+        }
+
+        .btn-result:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(67, 233, 123, 0.6);
+            background: linear-gradient(135deg, #3bd970, #2ce9c8);
+        }
+
+        .btn-result i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        #resultText {
+            display: none;
+            margin: 20px 0 10px;
+            font-weight: 600;
+            color: #4a6cf7;
+            padding: 15px;
+            background: #f0f4ff;
+            border-radius: 12px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.03);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 15px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%234a6cf7' fill-opacity='0.1' d='M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+            background-size: cover;
+            z-index: -1;
+        }
+
+        .features {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0 20px;
+        }
+
+        .feature {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .feature-icon {
+            background: #f0f4ff;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4a6cf7;
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+        }
+
+        .feature-text {
+            font-size: 0.8rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .footer {
+            margin-top: 30px;
+            font-size: 0.8rem;
+            color: #999;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="container">
+       
+        <div class="header">NEURO-FIT</div>
+        <div class="content">
+            <div class="logo-container">
+                <img src="img/logo.jpg" alt="Neuro-Guard Logo" class="logo">
+                <!-- <div class="logo-badge">
+                    <i class="fas fa-brain"></i>
+                </div> -->
+            </div>
+
+            <h2 class="tagline">⚡🧠 Seizure or Safe?</h2>
+            <p class="description">Upload your EMG signal (CSV) and let our advanced AI technology detect if a seizure
+                is present with high accuracy!</p>
+
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div class="feature-text">Fast</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="feature-text">Secure</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="feature-text">Accurate</div>
+                </div>
+            </div>
+
+            <input type="file" id="fileInput" accept=".csv">
+            <button class="btn btn-primary" id="uploadBtn">
+                <i class="fas fa-file-upload"></i> Choose CSV File
+            </button>
+
+            <p id="resultText">Tap to Reveal: Seizure or Safe? <br> Click on the Result & let AI uncover the truth!</p>
+            <button class="btn btn-result" id="resultBtn">
+                <i class="fas fa-eye"></i> Show Result
+            </button>
+
+            <div class="footer">
+                <p>© 2023 Neuro-Guard | AI-Powered Seizure Detection</p>
+            </div>
+        </div>
+        <div class="wave"></div>
+    </div>
+    <!-- <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script> -->
+
+    <script>
+
+        let fileInput = document.getElementById("fileInput");
+        let uploadBtn = document.getElementById("uploadBtn");
+        let resultBtn = document.getElementById("resultBtn");
+        let resultText = document.getElementById("resultText");
+
+        uploadBtn.addEventListener("click", function () {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener("change", function () {
+            if (fileInput.files.length > 0) {
+                resultBtn.style.display = "block";
+                resultText.style.display = "block";
+            }
+        });
+
+        resultBtn.addEventListener("click", function () {
+            let file = fileInput.files[0];
+
+            if (!file) {
+                alert("Please select a file first.");
+                return;
+            }
+
+            let formData = new FormData();
+            formData.append("file", file);
+
+            fetch("https://neuroguard.onrender.com/upload", {
+                method: "POST",
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("🔵 Server Response:", data);
+
+                    if (data.error) {
+                        alert("❌ Server Error: " + data.error);
+                        return;
+                    }
+
+                    if (data.predictions && data.predictions.length > 0) {
+                        let prediction = data.predictions[0];
+                        localStorage.setItem("seizurePrediction", prediction);
+
+                        if (prediction === "Seizure Detected") {
+                            window.location.href = "pop.html";
+                        } else {
+                            window.location.href = "pop2.html";
+                        }
+                    } else {
+                        alert("⚠️ No prediction received from server.");
+                    }
+                })
+                .catch(error => {
+                    console.error("❌ Error:", error);
+                    alert("Failed to process file.");
+                });
+
+        });
+    </script>
+</body>
+
+</html>

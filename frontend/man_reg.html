@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neuro-Guard Register</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .register-container {
+            width: 100%;
+            max-width: 450px;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #6e8efb, #4a6cf7);
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 60%);
+            transform: rotate(30deg);
+        }
+
+        .header h2 {
+            font-weight: 700;
+            margin-bottom: 5px;
+            font-size: 28px;
+            letter-spacing: 0.5px;
+            position: relative;
+        }
+
+        .header p {
+            opacity: 0.9;
+            margin-bottom: 0;
+            font-weight: 300;
+            font-size: 16px;
+        }
+
+        .brain-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            opacity: 0.7;
+        }
+
+        .form-container {
+            padding: 30px 25px;
+        }
+
+        .welcome-text {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+            font-weight: 600;
+            font-size: 20px;
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: #555;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .form-control {
+            border: none;
+            background-color: #f7f9fc;
+            border-radius: 12px;
+            padding: 12px 15px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+            margin-bottom: 15px;
+        }
+
+        .form-control:focus {
+            background-color: #fff;
+            box-shadow: 0 0 0 3px rgba(106, 142, 251, 0.15);
+            border: none;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .input-icon {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 15px;
+            color: #6e8efb;
+            font-size: 16px;
+        }
+
+        .input-with-icon {
+            padding-left: 45px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #6e8efb, #4a6cf7);
+            border: none;
+            border-radius: 12px;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 5px 15px rgba(106, 142, 251, 0.4);
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(106, 142, 251, 0.6);
+            background: linear-gradient(135deg, #5d7df9, #3a5ce5);
+        }
+
+        .btn-primary:active {
+            transform: translateY(1px);
+        }
+
+        .login-text {
+            text-align: center;
+            margin-top: 25px;
+            color: #666;
+            font-size: 15px;
+        }
+
+        .login-text a {
+            color: #6e8efb;
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .login-text a:hover {
+            color: #4a6cf7;
+            text-decoration: underline;
+        }
+
+        .password-requirements {
+            background-color: #f7f9fc;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            font-size: 13px;
+        }
+
+        .requirement {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+            color: #666;
+        }
+
+        .requirement i {
+            margin-right: 8px;
+            font-size: 12px;
+        }
+
+        .requirement.valid {
+            color: #28a745;
+        }
+
+        .requirement.invalid {
+            color: #dc3545;
+        }
+
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 15px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%234a6cf7' fill-opacity='0.1' d='M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+            background-size: cover;
+            z-index: -1;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 5px;
+            background: #f0f0f0;
+            border-radius: 5px;
+            margin: 5px 0 15px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0;
+            background: linear-gradient(to right, #ff416c, #ff4b2b);
+            transition: width 0.3s ease;
+        }
+
+        @media (min-width: 992px) {
+            .register-container {
+                max-width: 500px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="register-container">
+        <div class="header">
+            <i class="fas fa-brain brain-icon"></i>
+            <h2>Neuro-Guard</h2>
+            <p>Advanced Seizure Detection & Monitoring</p>
+        </div>
+
+        <div class="form-container">
+            <h4 class="welcome-text">Create an Account</h4>
+
+            <form id="registerForm">
+                <div class="input-group">
+                    <i class="fas fa-user input-icon"></i>
+                    <input type="text" class="form-control input-with-icon" id="name" placeholder="Your full name"
+                        required>
+                </div>
+
+                <div class="input-group">
+                    <i class="fas fa-envelope input-icon"></i>
+                    <input type="email" class="form-control input-with-icon" id="email" placeholder="Your email address"
+                        required>
+                </div>
+
+                <div class="input-group">
+                    <i class="fas fa-user-md input-icon"></i>
+                    <input type="email" class="form-control input-with-icon" id="doctorEmail"
+                        placeholder="Your doctor's email" required>
+                </div>
+
+                <div class="input-group">
+                    <i class="fas fa-lock input-icon"></i>
+                    <input type="password" class="form-control input-with-icon" id="password"
+                        placeholder="Create a password" required>
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-bar" id="passwordStrength"></div>
+                </div>
+
+                <div class="password-requirements">
+                    <div class="requirement" id="length">
+                        <i class="fas fa-circle"></i> At least 8 characters
+                    </div>
+                    <div class="requirement" id="uppercase">
+                        <i class="fas fa-circle"></i> At least one uppercase letter
+                    </div>
+                    <div class="requirement" id="lowercase">
+                        <i class="fas fa-circle"></i> At least one lowercase letter
+                    </div>
+                    <div class="requirement" id="number">
+                        <i class="fas fa-circle"></i> At least one number
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <i class="fas fa-lock input-icon"></i>
+                    <input type="password" class="form-control input-with-icon" id="confirmPassword"
+                        placeholder="Confirm your password" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">
+                    Create Account <i class="fas fa-arrow-right ms-2"></i>
+                </button>
+
+                <p class="login-text">Already have an account? <a href="login.html">Sign In</a></p>
+            </form>
+        </div>
+        <div class="wave"></div>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+    <script>
+        const password = document.getElementById('password');
+        const confirmPassword = document.getElementById('confirmPassword');
+        const passwordStrength = document.getElementById('passwordStrength');
+        const lengthReq = document.getElementById('length');
+        const uppercaseReq = document.getElementById('uppercase');
+        const lowercaseReq = document.getElementById('lowercase');
+        const numberReq = document.getElementById('number');
+
+        password.addEventListener('input', function () {
+            const value = password.value;
+            let strength = 0;
+
+            // Check requirements
+            const hasLength = value.length >= 8;
+            const hasUppercase = /[A-Z]/.test(value);
+            const hasLowercase = /[a-z]/.test(value);
+            const hasNumber = /[0-9]/.test(value);
+
+            // Update requirement indicators
+            updateRequirement(lengthReq, hasLength);
+            updateRequirement(uppercaseReq, hasUppercase);
+            updateRequirement(lowercaseReq, hasLowercase);
+            updateRequirement(numberReq, hasNumber);
+
+            // Calculate strength
+            if (hasLength) strength += 25;
+            if (hasUppercase) strength += 25;
+            if (hasLowercase) strength += 25;
+            if (hasNumber) strength += 25;
+
+            // Update progress bar
+            passwordStrength.style.width = strength + '%';
+
+            // Change color based on strength
+            if (strength <= 25) {
+                passwordStrength.style.background = 'linear-gradient(to right, #ff416c, #ff4b2b)';
+            } else if (strength <= 50) {
+                passwordStrength.style.background = 'linear-gradient(to right, #ff9966, #ff5e62)';
+            } else if (strength <= 75) {
+                passwordStrength.style.background = 'linear-gradient(to right, #ffb347, #ffcc33)';
+            } else {
+                passwordStrength.style.background = 'linear-gradient(to right, #56ab2f, #a8e063)';
+            }
+        });
+
+        function updateRequirement(element, isValid) {
+            if (isValid) {
+                element.classList.add('valid');
+                element.classList.remove('invalid');
+                element.querySelector('i').className = 'fas fa-check-circle';
+            } else {
+                element.classList.add('invalid');
+                element.classList.remove('valid');
+                element.querySelector('i').className = 'fas fa-circle';
+            }
+        }
+
+        document.getElementById('registerForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Check if passwords match
+            if (password.value !== confirmPassword.value) {
+                alert('Passwords do not match!');
+                return;
+            }
+
+            // Add your registration logic here
+            console.log('Registration attempt with:', {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                doctorEmail: document.getElementById('doctorEmail').value,
+                password: password.value
+            });
+
+            // Redirect or show success message
+        });
+    </script>
+    <script>
+        // Firebase config
+        const firebaseConfig = {
+            apiKey: "AIzaSyBKwadiYObRMTFZD9HuCVS5_QYxxgcWqJo",
+            authDomain: "neurofit-9aa32.firebaseapp.com",
+            projectId: "neurofit-9aa32",
+            storageBucket: "neurofit-9aa32.firebasestorage.app",
+            messagingSenderId: "178863392319",
+            appId: "1:178863392319:web:fe87cb1d058aa9c0015a8a",
+            measurementId: "G-QVK2JYP50Z"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // Submit handler
+        document.getElementById('registerForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const doctorEmail = document.getElementById('doctorEmail').value.trim();
+            const pass = document.getElementById('password').value;
+            const confirmPass = document.getElementById('confirmPassword').value;
+
+            if (pass !== confirmPass) {
+                alert('Passwords do not match!');
+                return;
+            }
+
+            try {
+                // Register user
+                const userCredential = await auth.createUserWithEmailAndPassword(email, pass);
+                const user = userCredential.user;
+
+                // Save user data to Firestore
+                await db.collection('users').doc(user.uid).set({
+                    uid: user.uid,
+                    name: name,
+                    email: email,
+                    doctorEmail: doctorEmail,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                alert('Registration successful! Redirecting...');
+                setTimeout(() => {
+                    window.location.href = 'menu.html';
+                }, 1500);
+
+            } catch (error) {
+                console.error("Error registering:", error);
+                alert('Registration failed: ' + error.message);
+            }
+        });
+    </script>
+
+</body>
+
+</html>
