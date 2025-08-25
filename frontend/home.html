@@ -240,13 +240,12 @@
             font-size: 0.8rem;
             color: #999;
         }
-
     </style>
 </head>
 
 <body>
     <div class="container">
-       
+
         <div class="header">NEURO-FIT</div>
         <div class="content">
             <div class="logo-container">
@@ -317,7 +316,6 @@
                 resultText.style.display = "block";
             }
         });
-
         resultBtn.addEventListener("click", function () {
             let file = fileInput.files[0];
 
@@ -326,10 +324,19 @@
                 return;
             }
 
+            // Read CSV for later display
+            let reader = new FileReader();
+            reader.onload = function (e) {
+                let csvText = e.target.result;
+                localStorage.setItem("uploadedCSV", csvText); // store CSV text
+            };
+            reader.readAsText(file);
+
+            // Send to backend for prediction
             let formData = new FormData();
             formData.append("file", file);
 
-            fetch("https://neuroguard.onrender.com/upload", {
+            fetch("https://neurofit-nvvv.onrender.com/upload", {
                 method: "POST",
                 body: formData
             })
@@ -346,8 +353,9 @@
                         let prediction = data.predictions[0];
                         localStorage.setItem("seizurePrediction", prediction);
 
+                        // 🚀 If seizure detected → go to data.html
                         if (prediction === "Seizure Detected") {
-                            window.location.href = "pop.html";
+                            window.location.href = "data.html";
                         } else {
                             window.location.href = "pop2.html";
                         }
@@ -359,8 +367,51 @@
                     console.error("❌ Error:", error);
                     alert("Failed to process file.");
                 });
-
         });
+
+        // resultBtn.addEventListener("click", function () {
+        //     let file = fileInput.files[0];
+
+        //     if (!file) {
+        //         alert("Please select a file first.");
+        //         return;
+        //     }
+
+        //     let formData = new FormData();
+        //     formData.append("file", file);
+
+        //     fetch("https://neuroguard.onrender.com/upload", {
+        //         method: "POST",
+        //         body: formData
+        //     })
+        //         .then(response => response.json())
+        //         .then(data => {
+        //             console.log("🔵 Server Response:", data);
+
+        //             if (data.error) {
+        //                 alert("❌ Server Error: " + data.error);
+        //                 return;
+        //             }
+
+        //             if (data.predictions && data.predictions.length > 0) {
+        //                 let prediction = data.predictions[0];
+        //                 localStorage.setItem("seizurePrediction", prediction);
+
+        //                 if (prediction === "Seizure Detected") {
+        //                     window.location.href = "pop.html";
+        //                 } else {
+        //                     window.location.href = "pop2.html";
+        //                 }
+        //             } else {
+        //                 alert("⚠️ No prediction received from server.");
+        //             }
+        //         })
+        //         .catch(error => {
+        //             console.error("❌ Error:", error);
+        //             alert("Failed to process file.");
+        //         });
+
+        // });
     </script>
 </body>
 
