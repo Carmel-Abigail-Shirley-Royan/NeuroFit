@@ -10,8 +10,18 @@ from datetime import datetime
 
 # --- Initialize Flask App and CORS ---
 app = Flask(__name__)
-CORS(app)  # Enable Cross-Origin Resource Sharing for frontend communication
-
+# CORS(app)  # Enable Cross-Origin Resource Sharing for frontend communication
+# Allow only your Netlify frontend
+CORS(app, resources={
+    r"/*": {
+        "origins": [
+            "https://neuro-fit.netlify.app",  # your Netlify frontend
+            "http://localhost:5000"           # optional: local testing
+        ],
+        "methods": ["GET", "POST", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization"]
+    }
+})
 # --- Brevo SMTP Config for Email Alerts ---
 # This configuration is for the /emergency route
 app.config['MAIL_SERVER'] = 'smtp-relay.brevo.com'
