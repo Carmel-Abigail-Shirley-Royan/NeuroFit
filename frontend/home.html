@@ -354,8 +354,8 @@
                     return;
                 }
 
-                if (data.predictions && data.predictions.length > 0) {
-                    let prediction = data.predictions[0]; // e.g., "Seizure Detected" or "Normal"
+                if (data.prediction) {
+                    let prediction = data.prediction[0]; // e.g., "Seizure Detected" or "Normal"
                     localStorage.setItem("seizurePrediction", prediction);
 
                     // ALWAYS redirect to results.html
