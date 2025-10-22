@@ -3,189 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seizure Data Analysis - Neuro-Guard</title>
+    <title>Detection Results</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Paste the full CSS from your first HTML file here */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); min-height: 100vh; padding: 20px; }
-        .main-container { max-width: 1200px; margin: 0 auto; }
-        .header-section { background: linear-gradient(135deg, #6e8efb, #4a6cf7); color: white; padding: 30px; border-radius: 20px 20px 0 0; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        .header-section h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 15px; }
-        .prediction-section { background: white; padding: 30px; text-align: center; }
-        .prediction-card { background: linear-gradient(135deg, #f8f9ff, #e8f0ff); border-radius: 15px; padding: 25px; margin: 20px 0; border: 2px solid #e0e6ff; }
-        .prediction-result { font-size: 2rem; font-weight: 700; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; gap: 15px; }
-        .result-safe { color: #28a745; }
-        .result-seizure { color: #dc3545; }
-        .confidence-bar { background: #e9ecef; height: 10px; border-radius: 5px; overflow: hidden; margin: 15px 0; }
-        .confidence-fill { height: 100%; background: linear-gradient(90deg, #28a745, #20c997); border-radius: 5px; transition: width 1s ease-in-out; }
-        .stats-section { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 30px 0; }
-        .stat-card { background: white; padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.08); border: 1px solid #e0e6ff; }
-        .stat-icon { font-size: 2rem; color: #4a6cf7; margin-bottom: 10px; }
-        .stat-value { font-size: 1.8rem; font-weight: 700; color: #2c3e50; margin-bottom: 5px; }
-        .stat-label { color: #6c757d; font-size: 0.9rem; }
-        .data-section { background: white; border-radius: 0 0 20px 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); overflow: hidden; }
-        .data-header { background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 20px 30px; font-size: 1.3rem; font-weight: 600; display: flex; align-items: center; gap: 10px; }
-        .table-container { max-height: 600px; overflow-y: auto; }
-        .data-table { width: 100%; border-collapse: collapse; }
-        .data-table th { background: #4a6cf7; color: white; padding: 15px 12px; font-weight: 600; position: sticky; top: 0; z-index: 10; font-size: 0.9rem; }
-        .data-table td { padding: 12px; border-bottom: 1px solid #e0e6ff; font-size: 0.85rem; text-align: center; }
-        .data-table tr:nth-child(even) { background: #f8f9ff; }
-        .no-data { text-align: center; padding: 60px 30px; color: #6c757d; }
-        .action-buttons { padding: 30px; text-align: center; background: white; border-top: 1px solid #e0e6ff; }
-        .btn-custom { padding: 12px 30px; border-radius: 25px; font-weight: 600; border: none; margin: 0 10px; cursor: pointer; transition: all 0.3s ease; }
-        .btn-primary-custom { background: linear-gradient(135deg, #6e8efb, #4a6cf7); color: white; }
-        .btn-secondary-custom { background: linear-gradient(135deg, #6c757d, #495057); color: white; }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            padding: 20px;
+        }
+        .result-container {
+            background: white;
+            padding: 30px 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 400px;
+        }
+        .result-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+        .result-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .result-message {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 30px;
+        }
+        .btn-action {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 12px;
+            border: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none; /* For links styled as buttons */
+        }
+        .btn-danger-style {
+             background: linear-gradient(135deg, #ff416c, #ff4b2b);
+             color: white;
+             box-shadow: 0 5px 15px rgba(255, 65, 108, 0.4);
+        }
+         .btn-danger-style:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 65, 108, 0.6);
+            background: linear-gradient(135deg, #f7305b, #e63a1a);
+            color: white; /* Ensure text color remains on hover */
+        }
+        .btn-safe-style {
+             background: linear-gradient(135deg, #43e97b, #38f9d7);
+             color: #1a3c34;
+             box-shadow: 0 5px 15px rgba(67, 233, 123, 0.4);
+        }
+        .btn-safe-style:hover {
+             transform: translateY(-3px);
+             box-shadow: 0 8px 20px rgba(67, 233, 123, 0.6);
+             background: linear-gradient(135deg, #3bd970, #2ce9c8);
+             color: #1a3c34; /* Ensure text color remains on hover */
+        }
+
+        .icon-seizure { color: #dc3545; }
+        .icon-safe { color: #198754; }
+        .title-seizure { color: #dc3545; }
+        .title-safe { color: #198754; }
+
     </style>
 </head>
 <body>
-    <div class="main-container">
-        <div class="header-section">
-            <h1><i class="fas fa-brain"></i> NEURO-GUARD</h1>
-            <p class="subtitle">Advanced Seizure Detection & Data Analysis</p>
-        </div>
-        <div class="prediction-section">
-            <div class="prediction-card">
-                <div class="prediction-result" id="predictionResult"></div>
-                <div class="confidence-bar">
-                    <div class="confidence-fill" id="confidenceFill"></div>
-                </div>
-                <p id="confidenceText"></p>
+    <div class="result-container">
+        <div id="resultIcon" class="result-icon">
             </div>
-            <div class="stats-section" id="statsSection"></div>
-        </div>
-        <div class="data-section">
-            <div class="data-header"><i class="fas fa-chart-line"></i> Signal Data Preview</div>
-            <div class="table-container" id="csvContainer"></div>
-            <div class="action-buttons">
-                <button class="btn-custom btn-secondary-custom" onclick="analyzeNew()">
-                    <i class="fas fa-plus"></i> Analyze New Data
-                </button>
-            </div>
-        </div>
+        <h2 id="resultTitle" class="result-title">
+            </h2>
+        <p id="resultMessage" class="result-message">
+            </p>
+        <a id="actionButton" href="#" class="btn-action">
+             </a>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const resultDataString = localStorage.getItem('analysisResult');
-            
-            if (!resultDataString) {
-                displayNoData();
-                return;
+        document.addEventListener("DOMContentLoaded", function() {
+            const prediction = localStorage.getItem("seizurePrediction");
+            //localStorage.removeItem("seizurePrediction"); // Optional: clear after reading
+
+            const iconEl = document.getElementById("resultIcon");
+            const titleEl = document.getElementById("resultTitle");
+            const messageEl = document.getElementById("resultMessage");
+            const buttonEl = document.getElementById("actionButton");
+
+            if (prediction === "Seizure Detected") {
+                iconEl.innerHTML = '<i class="fas fa-exclamation-triangle icon-seizure"></i>';
+                titleEl.textContent = "Seizure Detected";
+                titleEl.classList.add("title-seizure");
+                messageEl.textContent = "An anomaly consistent with a seizure has been detected in the provided EMG data.";
+                buttonEl.textContent = "View First Aid Steps";
+                buttonEl.href = "first aid.html"; // Link to your first aid page
+                buttonEl.classList.add("btn-danger-style"); // Style for seizure alert
+
+                // Optionally trigger emergency functions directly from here if needed
+                // handleEmergency(); // You'd need to copy the handleEmergency function from pop.html if used here
+            } else if (prediction === "Normal") { // Assuming "Normal" is the other prediction
+                 iconEl.innerHTML = '<i class="fas fa-check-circle icon-safe"></i>';
+                 titleEl.textContent = "Normal";
+                 titleEl.classList.add("title-safe");
+                 messageEl.textContent = "No seizure activity detected in the provided EMG data. You appear to be safe.";
+                 buttonEl.textContent = "Back to Home";
+                 buttonEl.href = "menu.html"; // Link back to the main menu or home
+                 buttonEl.classList.add("btn-safe-style"); // Style for safe result
             }
-
-            const resultData = JSON.parse(resultDataString);
-            const prediction = resultData.prediction;
-            const csvData = JSON.parse(resultData.csv_data); // Data is a nested JSON string
-
-            displayPrediction(prediction);
-            displayCSVData(csvData);
+             else {
+                 // Handle unexpected prediction values
+                iconEl.innerHTML = '<i class="fas fa-question-circle"></i>';
+                titleEl.textContent = "Result Unknown";
+                messageEl.textContent = "Could not determine the result from the analysis.";
+                buttonEl.textContent = "Back to Home";
+                buttonEl.href = "home.html";
+                buttonEl.classList.add("btn-secondary"); // Default style
+             }
         });
 
-        function displayPrediction(prediction) {
-            const predictionElement = document.getElementById("predictionResult");
-            const confidenceFill = document.getElementById("confidenceFill");
-            const confidenceText = document.getElementById("confidenceText");
-            
-            const isSeizure = prediction.toLowerCase().includes('seizure');
-            let resultClass = isSeizure ? 'result-seizure' : 'result-safe';
-            let icon = isSeizure ? 'fa-exclamation-triangle' : 'fa-check-circle';
-            let confidence = Math.floor(Math.random() * 15) + 85; // Random confidence 85-99%
+        // If you want the email/call functionality on this page, copy the
+        // handleEmergency function and related logic (geolocation, fetch)
+        // from pop.html here and call it when appropriate (e.g., automatically
+        // if seizure is detected, or via another button).
 
-            predictionElement.innerHTML = `<i class="fas ${icon}"></i> <span class="${resultClass}">${prediction}</span>`;
-            
-            setTimeout(() => { 
-                confidenceFill.style.width = confidence + '%';
-                if(isSeizure) {
-                    confidenceFill.style.background = 'linear-gradient(90deg, #dc3545, #ff7b89)';
-                }
-            }, 100);
-            
-            confidenceText.textContent = `Model Confidence: ${confidence}%`;
-        }
-
-        function displayCSVData(data) {
-            if (!data || data.length === 0) {
-                document.getElementById('csvContainer').innerHTML = '<div class="no-data"><h4>No data rows found in file.</h4></div>';
-                return;
-            }
-
-            // --- Update Statistics ---
-            const statsContainer = document.getElementById('statsSection');
-            statsContainer.innerHTML = `
-                <div class="stat-card">
-                    <div class="stat-icon"><i class="fas fa-table"></i></div>
-                    <div class="stat-value">${data.length}</div>
-                    <div class="stat-label">Total Data Points</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon"><i class="fas fa-heartbeat"></i></div>
-                    <div class="stat-value">${(data.reduce((a, b) => a + b.heart_rate, 0) / data.length).toFixed(1)}</div>
-                    <div class="stat-label">Avg. Heart Rate</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon"><i class="fas fa-thermometer-half"></i></div>
-                    <div class="stat-value">${(data.reduce((a, b) => a + b.temperature, 0) / data.length).toFixed(1)}°C</div>
-                    <div class="stat-label">Avg. Temperature</div>
-                </div>
-                 <div class="stat-card">
-                    <div class="stat-icon"><i class="fas fa-tint"></i></div>
-                    <div class="stat-value">${(data.reduce((a, b) => a + b.spo2, 0) / data.length).toFixed(1)}%</div>
-                    <div class="stat-label">Avg. SpO2</div>
-                </div>
-            `;
-            
-            // --- Build Data Table ---
-            const tableContainer = document.getElementById('csvContainer');
-            const headers = {
-                heart_rate: "Heart Rate",
-                temperature: "Temperature",
-                spo2: "SpO2 (%)",
-                vibration_intensity: "Vibration"
-            };
-            
-            let tableHTML = '<table class="data-table"><thead><tr>';
-            Object.values(headers).forEach(h => tableHTML += `<th>${h}</th>`);
-            tableHTML += '</tr></thead><tbody>';
-
-            const maxRows = Math.min(data.length, 100); // Show first 100 rows
-            for (let i = 0; i < maxRows; i++) {
-                tableHTML += '<tr>';
-                tableHTML += `<td>${data[i].heart_rate.toFixed(2)}</td>`;
-                tableHTML += `<td>${data[i].temperature.toFixed(2)}</td>`;
-                tableHTML += `<td>${data[i].spo2.toFixed(2)}</td>`;
-                tableHTML += `<td>${data[i].vibration_intensity.toFixed(2)}</td>`;
-                tableHTML += '</tr>';
-            }
-            tableHTML += '</tbody></table>';
-
-            if (data.length > 100) {
-                 tableHTML += `<div style="text-align: center; padding: 20px; color: #6c757d;">Showing first 100 of ${data.length} rows.</div>`;
-            }
-            
-            tableContainer.innerHTML = tableHTML;
-        }
-
-        function displayNoData() {
-            document.querySelector('.prediction-section').innerHTML = '';
-            document.querySelector('.data-section').innerHTML = `
-                <div class="no-data">
-                    <i class="fas fa-file-csv" style="font-size: 4rem;"></i>
-                    <h4>No Analysis Data Found</h4>
-                    <p>Please go back and upload a CSV file to begin.</p>
-                </div>
-                <div class="action-buttons">
-                    <button class="btn-custom btn-secondary-custom" onclick="analyzeNew()">
-                        <i class="fas fa-arrow-left"></i> Go Back
-                    </button>
-                </div>`;
-        }
-
-        function analyzeNew() {
-            localStorage.removeItem("analysisResult");
-            window.location.href = '/'; // Go back to the root/home page
-        }
     </script>
 </body>
 </html>

@@ -326,6 +326,10 @@
                 return;
             }
 
+            // Show some loading indicator here if you want
+            // e.g., resultBtn.textContent = "Processing...";
+            // resultBtn.disabled = true;
+
             let formData = new FormData();
             formData.append("file", file);
 
@@ -333,33 +337,44 @@
                 method: "POST",
                 body: formData
             })
-                .then(response => response.json())
-                .then(data => {
-                    console.log("🔵 Server Response:", data);
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+             })
+            .then(data => {
+                console.log("🔵 Server Response:", data);
 
-                    if (data.error) {
-                        alert("❌ Server Error: " + data.error);
-                        return;
-                    }
+                if (data.error) {
+                    alert("❌ Server Error: " + data.error);
+                    // Hide loading indicator
+                    // resultBtn.textContent = "Show Result";
+                    // resultBtn.disabled = false;
+                    return;
+                }
 
-                    if (data.predictions && data.predictions.length > 0) {
-                        let prediction = data.predictions[0];
-                        localStorage.setItem("seizurePrediction", prediction);
+                if (data.predictions && data.predictions.length > 0) {
+                    let prediction = data.predictions[0]; // e.g., "Seizure Detected" or "Normal"
+                    localStorage.setItem("seizurePrediction", prediction);
 
-                        if (prediction === "Seizure Detected") {
-                            window.location.href = "pop.html";
-                        } else {
-                            window.location.href = "pop2.html";
-                        }
-                    } else {
-                        alert("⚠️ No prediction received from server.");
-                    }
-                })
-                .catch(error => {
-                    console.error("❌ Error:", error);
-                    alert("Failed to process file.");
-                });
+                    // ALWAYS redirect to results.html
+                    window.location.href = "results.html";
 
+                } else {
+                    alert("⚠️ No prediction received or prediction format incorrect.");
+                    // Hide loading indicator
+                    // resultBtn.textContent = "Show Result";
+                    // resultBtn.disabled = false;
+                }
+            })
+            .catch(error => {
+                console.error("❌ Error:", error);
+                alert("Failed to process file. Check console for details.");
+                 // Hide loading indicator
+                 // resultBtn.textContent = "Show Result";
+                 // resultBtn.disabled = false;
+            });
         });
     </script>
 </body>
