@@ -76,10 +76,29 @@
                         let lat = position.coords.latitude;
                         let lon = position.coords.longitude;
 
-                        let userInfo = JSON.parse(localStorage.getItem("user"));
+                        // --- MODIFIED CODE START ---
+                        // Safely get and parse user info
+                        let rawUserInfo = localStorage.getItem("user");
+                        let userInfo = null; // Start with null
+
+                        // Check if rawUserInfo is not null, not undefined, and not the *string* "undefined"
+                        if (rawUserInfo && rawUserInfo !== "undefined") {
+                            try {
+                                // Only try to parse if it's a real value
+                                userInfo = JSON.parse(rawUserInfo);
+                            } catch (e) {
+                                console.error("Error parsing user info from localStorage:", e);
+                                // userInfo remains null if parsing fails
+                            }
+                        }
+
+                        // This part now works safely even if userInfo is null
+                        // It will use the fallback values ("Patient X", etc.)
                         let user = userInfo?.name || "Patient X";
                         let doctorEmail = userInfo?.doctorEmail || "doctor@example.com";
                         let userEmail = userInfo?.email || "user@example.com";
+                        // --- MODIFIED CODE END ---
+                        
                         let userPassword = "mdus fkkx rhti guko"; // App password
 
                         // 🚨 Send emergency email
@@ -102,7 +121,7 @@
                             alert("🚨 Emergency alert sent!");
 
                             // 📞 Trigger emergency call
-                            window.location.href = "tel:108"; // Replace 112 with actual emergency number
+                            window.location.href = "tel:108"; // Replace 108 with actual emergency number
 
                             // 🏥 Redirect to first aid page
                             setTimeout(() => {
