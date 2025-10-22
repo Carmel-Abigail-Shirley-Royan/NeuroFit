@@ -23,12 +23,6 @@ CORS(app, resources={
     }
 })
 
-@app.after_request
-def add_cors_headers(response):
-    response.headers["Access-Control-Allow-Origin"] = "https://neuro-fit.netlify.app"
-    response.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
-    response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
-    return response
 
 # --- Brevo SMTP Config for Email Alerts ---
 # This configuration is for the /emergency route
